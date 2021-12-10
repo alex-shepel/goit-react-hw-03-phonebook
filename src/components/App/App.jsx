@@ -4,6 +4,7 @@ import Filter from 'components/Filter';
 import s from './App.module.css';
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
+import * as storage from 'services/local-storage';
 
 class App extends Component {
   state = {
@@ -62,7 +63,7 @@ class App extends Component {
   };
 
   componentDidMount() {
-    const contacts = JSON.parse(localStorage.getItem('contacts'));
+    const contacts = storage.get('contacts');
 
     if (contacts) {
       this.setState({ contacts });
@@ -71,7 +72,7 @@ class App extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+      storage.set('contacts', this.state.contacts);
     }
   }
 
