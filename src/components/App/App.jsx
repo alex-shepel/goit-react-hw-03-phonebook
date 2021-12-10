@@ -1,36 +1,36 @@
-import ContactList from "components/ContactList";
-import ContactForm from "components/ContactForm";
-import Filter from "components/Filter";
-import s from "./App.module.css";
-import { Component } from "react";
-import { nanoid } from "nanoid";
+import ContactList from 'components/ContactList';
+import ContactForm from 'components/ContactForm';
+import Filter from 'components/Filter';
+import s from './App.module.css';
+import { Component } from 'react';
+import { nanoid } from 'nanoid';
 
 class App extends Component {
   state = {
     contacts: [
-      { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
-      { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
-      { id: "id-3", name: "Eden Clements", number: "645-17-79" },
-      { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
+      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
-    filter: "",
+    filter: '',
   };
 
-  normalize = (name) => {
-    const words = name.split(" ");
+  normalize = name => {
+    const words = name.split(' ');
     return words
-      .map((word) => {
+      .map(word => {
         const capLetter = word.charAt(0).toUpperCase();
         const rest = word.substring(1);
         return `${capLetter}${rest}`;
       })
-      .join(" ");
+      .join(' ');
   };
 
   handleAddContact = (name, number) => {
     const normName = this.normalize(name);
     const isDuplicate = this.state.contacts.some(
-      (item) => item.name === normName
+      item => item.name === normName,
     );
 
     if (isDuplicate) {
@@ -44,26 +44,25 @@ class App extends Component {
       id: nanoid(),
     };
 
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       contacts: [...prevState.contacts, newContact],
     }));
   };
 
-  handleFilter = (e) => {
+  handleFilter = e => {
     this.setState({
       filter: e.target.value,
     });
   };
 
-  handleDeleteContact = (e) => {
-    const id = e.target.parentNode.id;
-    this.setState((prevState) => ({
-      contacts: prevState.contacts.filter((item) => item.id !== id),
+  handleDeleteContact = id => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(item => item.id !== id),
     }));
   };
 
   componentDidMount() {
-    const contacts = JSON.parse(localStorage.getItem("contacts"));
+    const contacts = JSON.parse(localStorage.getItem('contacts'));
 
     if (contacts) {
       this.setState({ contacts });
@@ -72,7 +71,7 @@ class App extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem("contacts", JSON.stringify(this.state.contacts));
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
     }
   }
 
